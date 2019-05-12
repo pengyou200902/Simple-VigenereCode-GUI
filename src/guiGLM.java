@@ -51,12 +51,11 @@ public class guiGLM {
     }
 
     private StringBuilder cipher(String k, String plainString) {
-//        System.out.println(k);
-//        System.out.println(plainString);
-        if(plainString.isEmpty() || plainString == null) {
+        if(plainString.isEmpty()) {
             return new StringBuilder("");
         }
         else {
+            // 此处全部转为大写了
             return Vigenere(k.toUpperCase(), plainString.toUpperCase());
         }
 
@@ -64,18 +63,18 @@ public class guiGLM {
 
     private StringBuilder Vigenere(String k, String s) {
         int mod_A = 26;
-        int delta = (int)'A';
-        char[] plain = s.toCharArray();
-        char[] kee = k.toCharArray();
+        int delta = (int)'A';   //便于计算
         int x = 0;
         int j = 0;
+        char[] plain = s.toCharArray();
+        char[] kee = k.toCharArray();
         int len = k.length();
         StringBuilder cipher = new StringBuilder();
         for (int i = 0; i < plain.length; i++) {
             x = (int)plain[i];
-            if(x >= (int)'A' && x<= (int)'Z') {
-                x = (x - delta + (int)kee[j] - delta) % mod_A + delta;
-                j = (j + 1) % len;
+            if(x >= (int)'A' && x<= (int)'Z') { //大写字母
+                x = (x - delta + (int)kee[j] - delta) % mod_A + delta; // 移位
+                j = (j + 1) % len; // 循环用kee密钥的每一位去参与移位
             }
             else {continue; }
             cipher.append((char)(x));
